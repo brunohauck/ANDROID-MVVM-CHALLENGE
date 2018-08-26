@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Code Challenge</string>
     <string name="movie_and_genres">%s - %s</string>
+    <string name="title_activity_home_main">HomeMainActivity</string>
 </resources>

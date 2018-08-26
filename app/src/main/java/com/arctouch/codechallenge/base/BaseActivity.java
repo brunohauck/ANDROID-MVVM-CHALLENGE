@@ -1,21 +1,24 @@
 package com.arctouch.codechallenge.base;
 
+import android.os.Bundle;
+import android.support.annotation.LayoutRes;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
-import com.arctouch.codechallenge.api.TmdbApi;
 
-import okhttp3.OkHttpClient;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.moshi.MoshiConverterFactory;
+import butterknife.ButterKnife;
+import dagger.android.support.DaggerAppCompatActivity;
 
-public class BaseActivity extends AppCompatActivity {
 
-    protected TmdbApi api = new Retrofit.Builder()
-            .baseUrl(TmdbApi.URL)
-            .client(new OkHttpClient.Builder().build())
-            .addConverterFactory(MoshiConverterFactory.create())
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .build()
-            .create(TmdbApi.class);
+public abstract class BaseActivity extends DaggerAppCompatActivity {
+
+    @LayoutRes
+    protected abstract int layoutRes();
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(layoutRes());
+        ButterKnife.bind(this);
+    }
 }
