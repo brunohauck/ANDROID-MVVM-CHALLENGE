@@ -5,9 +5,13 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
 import com.arctouch.codechallenge.api.ServiceMovies;
+import com.arctouch.codechallenge.data.Cache;
+import com.arctouch.codechallenge.model.Genre;
+import com.arctouch.codechallenge.model.GenreResponse;
 import com.arctouch.codechallenge.model.Movie;
 import com.arctouch.codechallenge.model.UpcomingMoviesResponse;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -32,7 +36,8 @@ public class ListMoviesViewModel extends ViewModel {
     public ListMoviesViewModel(ServiceMovies serviceMovies) {
         this.serviceMovies = serviceMovies;
         disposable = new CompositeDisposable();
-        fetchRepos();
+        //fetchRepos();
+        fetchGenres();
     }
 
     LiveData<List<Movie>> getRepos() {
@@ -49,32 +54,43 @@ public class ListMoviesViewModel extends ViewModel {
         return loading;
     }
 
-    /*
-            api.upcomingMovies(TmdbApi.API_KEY, TmdbApi.DEFAULT_LANGUAGE, 1L, TmdbApi.DEFAULT_REGION)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(response -> {
-                    for (Movie movie : response.results) {
-                        movie.genres = new ArrayList<>();
-                        for (Genre genre : Cache.getGenres()) {
-                            if (movie.genreIds.contains(genre.id)) {
-                                movie.genres.add(genre);
-                            }
-                        }
+
+    private void fetchGenres() {
+        loading.setValue(true);
+        disposable.add(serviceMovies.getGenres().subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()).subscribeWith(new DisposableSingleObserver<GenreResponse>() {
+                    @Override
+                    public void onSuccess(GenreResponse value) {
+                        repoLoadError.setValue(false);
+                        Cache.setGenres(value.genres);
+                        fetchRepos();
+                        loading.setValue(false);
                     }
 
-                    recyclerView.setAdapter(new HomeAdapter(response.results));
-                    progressBar.setVisibility(View.GONE);
-                });
-    */
+                    @Override
+                    public void onError(Throwable e) {
+                        repoLoadError.setValue(true);
+                        loading.setValue(false);
+                    }
+                }));
+    }
 
     private void fetchRepos() {
-        loading.setValue(true);
+        //loading.setValue(true);
         disposable.add(serviceMovies.getUpcomingMovies().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribeWith(new DisposableSingleObserver<UpcomingMoviesResponse>() {
                     @Override
                     public void onSuccess(UpcomingMoviesResponse value) {
                         repoLoadError.setValue(false);
+                        /*
+                        for (Movie movie : value.results) {
+                            movie.genres = new ArrayList<>();
+                            for (Genre genre : Cache.getGenres()) {
+                                if (movie.genreIds.contains(genre.id)) {
+                                    movie.genres.add(genre);
+                                }
+                            }
+                        }*/
                         movies.setValue(value.results);
                         loading.setValue(false);
                     }
@@ -94,6 +110,8 @@ public class ListMoviesViewModel extends ViewModel {
                     @Override
                     public void onSuccess(UpcomingMoviesResponse value) {
                         repoLoadError.setValue(false);
+
+
                         movies.setValue(value.results);
                         loading.setValue(false);
                     }
@@ -105,6 +123,7 @@ public class ListMoviesViewModel extends ViewModel {
                     }
                 }));
     }
+
 
     @Override
     protected void onCleared() {

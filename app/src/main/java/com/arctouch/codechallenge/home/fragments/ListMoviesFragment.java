@@ -14,6 +14,8 @@ import android.widget.TextView;
 
 import com.arctouch.codechallenge.R;
 import com.arctouch.codechallenge.base.BaseFragment;
+import com.arctouch.codechallenge.home.detail.DetailsFragment;
+import com.arctouch.codechallenge.home.detail.DetailsViewModel;
 import com.arctouch.codechallenge.model.Movie;
 import com.arctouch.codechallenge.util.PaginationScrollListener;
 import com.arctouch.codechallenge.util.ViewModelFactory;
@@ -37,7 +39,7 @@ public class ListMoviesFragment extends BaseFragment implements MovieSelectedLis
     private static final int PAGE_START = 1;
     private boolean isLoading = false;
     private boolean isLastPage = false;
-    private int TOTAL_PAGES = 10;
+    private int TOTAL_PAGES = 100;
     private int currentPage = PAGE_START;
 
     LinearLayoutManager linearLayoutManager;
@@ -57,18 +59,10 @@ public class ListMoviesFragment extends BaseFragment implements MovieSelectedLis
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(ListMoviesViewModel.class);
         listView.addItemDecoration(new DividerItemDecoration(getBaseActivity(), DividerItemDecoration.VERTICAL));
-        Log.d("---->", "Entrou 01");
-        //listView.setAdapter(new MovieListAdapter(viewModel, this, this));
-
         adapter = new PaginationAdapter(viewModel, this, this);
-
         listView.setAdapter(adapter);
-        Log.d("---->", "Entrou 02");
-
-        //listView.setLayoutManager(new LinearLayoutManager(getContext()));
         linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         listView.setLayoutManager(linearLayoutManager);
-        Log.d("---->", "Entrou 03");
         listView.addOnScrollListener(new PaginationScrollListener(linearLayoutManager) {
                     @Override
                     protected void loadMoreItems() {
@@ -113,38 +107,14 @@ public class ListMoviesFragment extends BaseFragment implements MovieSelectedLis
         });
 
     }
-    /*
-    private void loadNextPage() {
-        Log.d(TAG, "loadNextPage: " + currentPage);
 
-        callTopRatedMoviesApi().enqueue(new Callback<MoviesResponse>() {
-            @Override
-            public void onResponse(Call<MoviesResponse> call, Response<MoviesResponse> response) {
-                adapter.removeLoadingFooter();
-                isLoading = false;
-
-                List<Movie> results = fetchResults(response);
-                adapter.addAll(results);
-
-                if (currentPage != TOTAL_PAGES) adapter.addLoadingFooter();
-                else isLastPage = true;
-            }
-
-            @Override
-            public void onFailure(Call<MoviesResponse> call, Throwable t) {
-                t.printStackTrace();
-                // TODO: 08/11/16 handle failure
-            }
-        });
-    } */
 
     @Override
     public void onMovieSelected(Movie movie) {
-        /*
         DetailsViewModel detailsViewModel = ViewModelProviders.of(getBaseActivity(), viewModelFactory).get(DetailsViewModel.class);
-        detailsViewModel.setSelectedRepo(repo);
+        detailsViewModel.setSelectedRepo(movie);
         getBaseActivity().getSupportFragmentManager().beginTransaction().replace(R.id.screenContainer, new DetailsFragment())
-                .addToBackStack(null).commit(); */
+                .addToBackStack(null).commit();
     }
 
     private void observableViewModel() {

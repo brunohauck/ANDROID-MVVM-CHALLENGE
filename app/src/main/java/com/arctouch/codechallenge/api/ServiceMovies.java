@@ -1,5 +1,6 @@
 package com.arctouch.codechallenge.api;
 
+import com.arctouch.codechallenge.model.GenreResponse;
 import com.arctouch.codechallenge.model.Movie;
 import com.arctouch.codechallenge.model.UpcomingMoviesResponse;
 
@@ -24,16 +25,18 @@ public class ServiceMovies {
         this.tmdbApi = tmdbApi;
     }
 
-
-
     public Single<UpcomingMoviesResponse> getUpcomingMovies() {
         return tmdbApi.upcomingMovies(TmdbApi.API_KEY, TmdbApi.DEFAULT_LANGUAGE, 1L, TmdbApi.DEFAULT_REGION);
     }
+    public Single<GenreResponse> getGenres() {
+        return tmdbApi.genres(TmdbApi.API_KEY, TmdbApi.DEFAULT_LANGUAGE);
+    }
+
     public Single<UpcomingMoviesResponse> getUpcomingMoviesNext(Long page) {
         return tmdbApi.upcomingMovies(TmdbApi.API_KEY, TmdbApi.DEFAULT_LANGUAGE, page, TmdbApi.DEFAULT_REGION);
     }
-    /*
-    public Single<Repo> getRepo(String owner, String name) {
-        return repoService.getRepo(owner, name);
-    } */
+
+    public Single<Movie> getRepo(Long id) {
+        return tmdbApi.movie(id, TmdbApi.API_KEY, TmdbApi.DEFAULT_LANGUAGE);
+    }
 }
