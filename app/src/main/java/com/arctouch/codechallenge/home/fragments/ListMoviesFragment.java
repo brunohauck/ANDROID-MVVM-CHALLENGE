@@ -2,17 +2,20 @@ package com.arctouch.codechallenge.home.fragments;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.arctouch.codechallenge.R;
 import com.arctouch.codechallenge.base.BaseFragment;
 import com.arctouch.codechallenge.model.Movie;
+import com.arctouch.codechallenge.util.PaginationScrollListener;
 import com.arctouch.codechallenge.util.ViewModelFactory;
 
 import javax.inject.Inject;
@@ -31,9 +34,19 @@ public class ListMoviesFragment extends BaseFragment implements MovieSelectedLis
     @BindView(R.id.loading_view)
     View loadingView;
 
+    private static final int PAGE_START = 1;
+    private boolean isLoading = false;
+    private boolean isLastPage = false;
+    private int TOTAL_PAGES = 10;
+    private int currentPage = PAGE_START;
+
+    LinearLayoutManager linearLayoutManager;
+
     @Inject
     ViewModelFactory viewModelFactory;
     private ListMoviesViewModel viewModel;
+
+    PaginationAdapter adapter;
 
     @Override
     protected int layoutRes() {
@@ -43,14 +56,87 @@ public class ListMoviesFragment extends BaseFragment implements MovieSelectedLis
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(ListMoviesViewModel.class);
-
         listView.addItemDecoration(new DividerItemDecoration(getBaseActivity(), DividerItemDecoration.VERTICAL));
-        listView.setAdapter(new MovieListAdapter(viewModel, this, this));
-        listView.setLayoutManager(new LinearLayoutManager(getContext()));
+        Log.d("---->", "Entrou 01");
+        //listView.setAdapter(new MovieListAdapter(viewModel, this, this));
+
+        adapter = new PaginationAdapter(viewModel, this, this);
+
+        listView.setAdapter(adapter);
+        Log.d("---->", "Entrou 02");
+
+        //listView.setLayoutManager(new LinearLayoutManager(getContext()));
+        linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        listView.setLayoutManager(linearLayoutManager);
+        Log.d("---->", "Entrou 03");
+        listView.addOnScrollListener(new PaginationScrollListener(linearLayoutManager) {
+                    @Override
+                    protected void loadMoreItems() {
+                        isLoading = true;
+                        currentPage += 1;
+                        Log.d("---->", "Entrou 04");
+
+                        // mocking network delay for API call
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                loadNextPage();
+                            }
+                        }, 1000);
+                    }
+
+                    @Override
+                    public int getTotalPageCount() {
+                        return TOTAL_PAGES;
+                    }
+
+                    @Override
+                    public boolean isLastPage() {
+                        return isLastPage;
+                    }
+
+                    @Override
+                    public boolean isLoading() {
+                        return isLoading;
+                    }
+                });
+
 
         observableViewModel();
     }
 
+    private void loadNextPage(){
+        Long myLong= new Long(currentPage);
+        viewModel.getReposNext(myLong).observe(this, repos -> {
+            if(repos != null) listView.setVisibility(View.VISIBLE);
+            adapter.addAll(repos);
+        });
+
+    }
+    /*
+    private void loadNextPage() {
+        Log.d(TAG, "loadNextPage: " + currentPage);
+
+        callTopRatedMoviesApi().enqueue(new Callback<MoviesResponse>() {
+            @Override
+            public void onResponse(Call<MoviesResponse> call, Response<MoviesResponse> response) {
+                adapter.removeLoadingFooter();
+                isLoading = false;
+
+                List<Movie> results = fetchResults(response);
+                adapter.addAll(results);
+
+                if (currentPage != TOTAL_PAGES) adapter.addLoadingFooter();
+                else isLastPage = true;
+            }
+
+            @Override
+            public void onFailure(Call<MoviesResponse> call, Throwable t) {
+                t.printStackTrace();
+                // TODO: 08/11/16 handle failure
+            }
+        });
+    } */
 
     @Override
     public void onMovieSelected(Movie movie) {

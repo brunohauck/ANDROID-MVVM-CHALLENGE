@@ -13,7 +13,7 @@ import com.arctouch.codechallenge.R;
 import com.arctouch.codechallenge.model.Movie;
 import com.arctouch.codechallenge.util.MovieImageUrlBuilder;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
+//import com.bumptech.glide.request.RequestOptions;
 
 import java.util.List;
 
@@ -48,12 +48,13 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
             releaseDateTextView.setText(movie.releaseDate);
 
             String posterPath = movie.posterPath;
+            /*
             if (TextUtils.isEmpty(posterPath) == false) {
                 Glide.with(itemView)
                         .load(movieImageUrlBuilder.buildPosterUrl(posterPath))
                         .apply(new RequestOptions().placeholder(R.drawable.ic_image_placeholder))
                         .into(posterImageView);
-            }
+            }*/
         }
     }
 

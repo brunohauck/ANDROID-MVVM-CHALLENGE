@@ -29,6 +29,9 @@ public class ServiceMovies {
     public Single<UpcomingMoviesResponse> getUpcomingMovies() {
         return tmdbApi.upcomingMovies(TmdbApi.API_KEY, TmdbApi.DEFAULT_LANGUAGE, 1L, TmdbApi.DEFAULT_REGION);
     }
+    public Single<UpcomingMoviesResponse> getUpcomingMoviesNext(Long page) {
+        return tmdbApi.upcomingMovies(TmdbApi.API_KEY, TmdbApi.DEFAULT_LANGUAGE, page, TmdbApi.DEFAULT_REGION);
+    }
     /*
     public Single<Repo> getRepo(String owner, String name) {
         return repoService.getRepo(owner, name);

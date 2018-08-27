@@ -38,6 +38,10 @@ public class ListMoviesViewModel extends ViewModel {
     LiveData<List<Movie>> getRepos() {
         return movies;
     }
+    LiveData<List<Movie>> getReposNext(Long page) {
+        fetchReposNext(page);
+        return movies;
+    }
     LiveData<Boolean> getError() {
         return repoLoadError;
     }
@@ -67,6 +71,25 @@ public class ListMoviesViewModel extends ViewModel {
     private void fetchRepos() {
         loading.setValue(true);
         disposable.add(serviceMovies.getUpcomingMovies().subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()).subscribeWith(new DisposableSingleObserver<UpcomingMoviesResponse>() {
+                    @Override
+                    public void onSuccess(UpcomingMoviesResponse value) {
+                        repoLoadError.setValue(false);
+                        movies.setValue(value.results);
+                        loading.setValue(false);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        repoLoadError.setValue(true);
+                        loading.setValue(false);
+                    }
+                }));
+    }
+
+    private void fetchReposNext(Long page) {
+        loading.setValue(true);
+        disposable.add(serviceMovies.getUpcomingMoviesNext(page).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribeWith(new DisposableSingleObserver<UpcomingMoviesResponse>() {
                     @Override
                     public void onSuccess(UpcomingMoviesResponse value) {
