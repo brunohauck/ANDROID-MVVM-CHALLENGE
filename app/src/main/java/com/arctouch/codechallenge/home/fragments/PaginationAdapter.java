@@ -116,7 +116,7 @@ public class PaginationAdapter extends RecyclerView.Adapter<PaginationAdapter.Mo
                  * Learn more about Glide here:
                  *
                  */
-                String posterPath = result.posterPath;
+                String posterPath = result.poster_path;
 
                 if (TextUtils.isEmpty(posterPath) == false) {
                     Glide
@@ -239,7 +239,7 @@ public class PaginationAdapter extends RecyclerView.Adapter<PaginationAdapter.Mo
         private ProgressBar mProgress;
 
         private Movie movie;
-        public MovieVH(View itemView, MovieSelectedListener movieSelectedListener) {
+        MovieVH(View itemView, MovieSelectedListener movieSelectedListener) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(v -> {
@@ -253,6 +253,9 @@ public class PaginationAdapter extends RecyclerView.Adapter<PaginationAdapter.Mo
             mYear = (TextView) itemView.findViewById(R.id.movie_year);
             mPosterImg = (ImageView) itemView.findViewById(R.id.movie_poster);
             mProgress = (ProgressBar) itemView.findViewById(R.id.movie_progress);
+        }
+        void bind(Movie movie) {
+            this.movie = movie;
         }
     }
 

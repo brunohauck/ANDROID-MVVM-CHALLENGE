@@ -3,6 +3,7 @@ package com.arctouch.codechallenge.home.fragments;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
+import android.util.Log;
 
 import com.arctouch.codechallenge.api.ServiceMovies;
 import com.arctouch.codechallenge.data.Cache;
@@ -82,6 +83,8 @@ public class ListMoviesViewModel extends ViewModel {
                     @Override
                     public void onSuccess(UpcomingMoviesResponse value) {
                         repoLoadError.setValue(false);
+
+                        Log.d("---->pag", Integer.toString(value.total_pages));
                         /*
                         for (Movie movie : value.results) {
                             movie.genres = new ArrayList<>();

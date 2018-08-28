@@ -3,6 +3,7 @@ package com.arctouch.codechallenge.module;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 
+import com.arctouch.codechallenge.home.detail.DetailsViewModel;
 import com.arctouch.codechallenge.home.fragments.ListMoviesViewModel;
 import com.arctouch.codechallenge.util.ViewModelFactory;
 import com.arctouch.codechallenge.util.ViewModelKey;
@@ -23,12 +24,11 @@ public abstract class ViewModelModule {
     @ViewModelKey(ListMoviesViewModel.class)
     abstract ViewModel bindListViewModel(ListMoviesViewModel listViewModel);
 
-    /*
     @Binds
     @IntoMap
     @ViewModelKey(DetailsViewModel.class)
     abstract ViewModel bindDetailsViewModel(DetailsViewModel detailsViewModel);
-    */
+
     @Binds
     abstract ViewModelProvider.Factory bindViewModelFactory(ViewModelFactory factory);
 

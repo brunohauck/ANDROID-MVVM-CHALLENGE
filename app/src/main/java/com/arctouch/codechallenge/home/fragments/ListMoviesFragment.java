@@ -48,7 +48,7 @@ public class ListMoviesFragment extends BaseFragment implements MovieSelectedLis
     ViewModelFactory viewModelFactory;
     private ListMoviesViewModel viewModel;
 
-    PaginationAdapter adapter;
+    MovieListAdapter adapter;
 
     @Override
     protected int layoutRes() {
@@ -59,7 +59,13 @@ public class ListMoviesFragment extends BaseFragment implements MovieSelectedLis
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(ListMoviesViewModel.class);
         listView.addItemDecoration(new DividerItemDecoration(getBaseActivity(), DividerItemDecoration.VERTICAL));
-        adapter = new PaginationAdapter(viewModel, this, this);
+
+
+        listView.setAdapter(new MovieListAdapter(viewModel, this, this));
+
+        adapter = new MovieListAdapter(viewModel, this, this);
+        //adapter = new PaginationAdapter(viewModel, this, this);
+        //adapter = new MovieListAdapter(viewModel, this, this);
         listView.setAdapter(adapter);
         linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         listView.setLayoutManager(linearLayoutManager);
@@ -68,9 +74,8 @@ public class ListMoviesFragment extends BaseFragment implements MovieSelectedLis
                     protected void loadMoreItems() {
                         isLoading = true;
                         currentPage += 1;
-                        Log.d("---->", "Entrou 04");
-
                         // mocking network delay for API call
+                        Log.d("--->","Entrou");
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {

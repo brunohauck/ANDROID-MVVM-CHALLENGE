@@ -9,15 +9,13 @@ public class Movie {
     public String title;
     public String overview;
     public List<Genre> genres;
-    @Json(name = "genre_ids")
-    public List<Integer> genreIds;
-    @Json(name = "poster_path")
-    public String posterPath;
-    @Json(name = "backdrop_path")
-    public String backdropPath;
-    @Json(name = "release_date")
-    public String releaseDate;
+    public List<Integer> genre_ids;
+    public String poster_path;
+    public String backdrop_path;
+    public String release_date;
 
+
+/*
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -64,5 +62,5 @@ public class Movie {
                 ", backdropPath='" + backdropPath + '\'' +
                 ", releaseDate='" + releaseDate + '\'' +
                 '}';
-    }
+    } */
 }

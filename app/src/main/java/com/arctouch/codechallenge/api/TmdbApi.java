@@ -23,6 +23,7 @@ public interface TmdbApi {
             @Query("language") String language
     );
 
+
     @GET("movie/upcoming")
     Single<UpcomingMoviesResponse> upcomingMovies(
             @Query("api_key") String apiKey,
@@ -31,8 +32,8 @@ public interface TmdbApi {
             @Query("region") String region
     );
 
-    /*
 
+/*
     @GET("movie/upcoming")
     Observable<UpcomingMoviesResponse> upcomingMovies(
             @Query("api_key") String apiKey,
@@ -40,10 +41,6 @@ public interface TmdbApi {
             @Query("page") Long page,
             @Query("region") String region
     ); */
-
-
-
-
 
     @GET("movie/{id}")
     Single<Movie> movie(

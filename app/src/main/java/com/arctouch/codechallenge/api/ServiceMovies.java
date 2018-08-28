@@ -5,6 +5,7 @@ import com.arctouch.codechallenge.model.Movie;
 import com.arctouch.codechallenge.model.UpcomingMoviesResponse;
 
 import java.util.List;
+import java.util.Observable;
 
 import javax.inject.Inject;
 
@@ -29,6 +30,7 @@ public class ServiceMovies {
         return tmdbApi.upcomingMovies(TmdbApi.API_KEY, TmdbApi.DEFAULT_LANGUAGE, 1L, TmdbApi.DEFAULT_REGION);
     }
     public Single<GenreResponse> getGenres() {
+
         return tmdbApi.genres(TmdbApi.API_KEY, TmdbApi.DEFAULT_LANGUAGE);
     }
 

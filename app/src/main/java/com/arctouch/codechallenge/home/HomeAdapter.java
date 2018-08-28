@@ -45,9 +45,9 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         public void bind(Movie movie) {
             titleTextView.setText(movie.title);
             genresTextView.setText(TextUtils.join(", ", movie.genres));
-            releaseDateTextView.setText(movie.releaseDate);
+            releaseDateTextView.setText(movie.release_date);
 
-            String posterPath = movie.posterPath;
+            String posterPath = movie.poster_path;
             /*
             if (TextUtils.isEmpty(posterPath) == false) {
                 Glide.with(itemView)

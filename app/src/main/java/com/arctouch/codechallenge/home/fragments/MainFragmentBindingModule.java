@@ -1,5 +1,7 @@
 package com.arctouch.codechallenge.home.fragments;
 
+import com.arctouch.codechallenge.home.detail.DetailsFragment;
+
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
 
@@ -10,7 +12,7 @@ public abstract class MainFragmentBindingModule {
     @ContributesAndroidInjector
     abstract ListMoviesFragment provideListMoviesFragment();
 
-    /*
+
     @ContributesAndroidInjector
-    abstract DetailsFragment provideDetailsFragment(); */
+    abstract DetailsFragment provideDetailsFragment();
 }
