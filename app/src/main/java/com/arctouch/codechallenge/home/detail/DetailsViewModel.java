@@ -6,7 +6,11 @@ import android.arch.lifecycle.ViewModel;
 import android.os.Bundle;
 
 import com.arctouch.codechallenge.api.ServiceMovies;
+import com.arctouch.codechallenge.data.Cache;
+import com.arctouch.codechallenge.model.Genre;
 import com.arctouch.codechallenge.model.Movie;
+
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -57,10 +61,18 @@ public class DetailsViewModel extends ViewModel {
     }
 
     private void loadRepo(Long repo_details) {
-        disposable.add(serviceMovies.getRepo(repo_details).subscribeOn(Schedulers.io())
+        disposable.add(serviceMovies.getMovie(repo_details).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribeWith(new DisposableSingleObserver<Movie>() {
             @Override
             public void onSuccess(Movie value) {
+
+
+                value.genres = new ArrayList<>();
+                for (Genre genre : Cache.getGenres()) {
+                    if (value.genre_ids.contains(genre.id)) {
+                        value.genres.add(genre);
+                    }
+                }
                 selectedMovie.setValue(value);
             }
 

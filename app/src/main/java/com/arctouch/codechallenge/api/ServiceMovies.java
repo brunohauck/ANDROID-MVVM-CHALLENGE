@@ -38,7 +38,7 @@ public class ServiceMovies {
         return tmdbApi.upcomingMovies(TmdbApi.API_KEY, TmdbApi.DEFAULT_LANGUAGE, page, TmdbApi.DEFAULT_REGION);
     }
 
-    public Single<Movie> getRepo(Long id) {
+    public Single<Movie> getMovie(Long id) {
         return tmdbApi.movie(id, TmdbApi.API_KEY, TmdbApi.DEFAULT_LANGUAGE);
     }
 }

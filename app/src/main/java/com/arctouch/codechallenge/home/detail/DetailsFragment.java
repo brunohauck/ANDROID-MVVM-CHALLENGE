@@ -29,10 +29,9 @@ public class DetailsFragment extends BaseFragment {
     @BindView(R.id.tv_repo_name) TextView repoNameTextView;
     @BindView(R.id.tv_repo_description) TextView repoDescriptionTextView;
     @BindView(R.id.releaseDate) TextView textViewReleaseDate;
-    @BindView(R.id.movie_poster)
-    ImageView moviePoster;
-    @BindView(R.id.movie_back_drop)
-    ImageView movieBackDrop;
+    @BindView(R.id.genresTextView) TextView genresTextView;
+    @BindView(R.id.movie_poster) ImageView moviePoster;
+    @BindView(R.id.movie_back_drop) ImageView movieBackDrop;
 
     @Inject
     ViewModelFactory viewModelFactory;
@@ -64,6 +63,7 @@ public class DetailsFragment extends BaseFragment {
                 repoDescriptionTextView.setText(movie.overview);
                 textViewReleaseDate.setText(movie.release_date);
                 String posterPath = movie.poster_path;
+                genresTextView.setText(TextUtils.join(", ", movie.genres));
                 if (TextUtils.isEmpty(posterPath) == false) {
                     Glide
                             .with(this)
@@ -71,15 +71,12 @@ public class DetailsFragment extends BaseFragment {
                             .listener(new RequestListener<String, GlideDrawable>() {
                                 @Override
                                 public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-
-                                    //holder.mProgress.setVisibility(View.GONE);
                                     return false;
                                 }
 
                                 @Override
                                 public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                                    // image ready, hide progress now
-                                    //holder.mProgress.setVisibility(View.GONE);
+
                                     return false;   // return false if you want Glide to handle everything else.
                                 }
                             })

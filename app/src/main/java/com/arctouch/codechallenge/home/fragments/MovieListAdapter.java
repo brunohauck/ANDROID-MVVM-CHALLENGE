@@ -101,8 +101,8 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Repo
 
         void bind(Movie movie) {
             this.movie = movie;
-            movieYearTextView.setText(movie.title);
-            movieTitleTextView.setText(movie.release_date);
+            movieYearTextView.setText(movie.release_date);
+            movieTitleTextView.setText(movie.title);
             movieDescTextView.setText(movie.overview);
             String posterPath = movie.poster_path;
 
@@ -114,14 +114,11 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Repo
                             @Override
                             public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
 
-                                //holder.mProgress.setVisibility(View.GONE);
                                 return false;
                             }
 
                             @Override
                             public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                                // image ready, hide progress now
-                                //holder.mProgress.setVisibility(View.GONE);
                                 return false;   // return false if you want Glide to handle everything else.
                             }
                         })
@@ -131,58 +128,6 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Repo
                         .into(moviePoster);
 
             }
-            /*
-            Glide
-                    .with(itemView)
-                    .load(MovieImageUrlBuilder.buildPosterUrl(movie.posterPath))
-                    .listener(new RequestListener<String, GlideDrawable>() {
-                        @Override
-                        public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-
-                            movieVH.mProgress.setVisibility(View.GONE);
-                            return false;
-                        }
-
-                        @Override
-                        public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                            // image ready, hide progress now
-                            movieVH.mProgress.setVisibility(View.GONE);
-                            return false;   // return false if you want Glide to handle everything else.
-                        }
-                    })
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)   // cache both original & resized image
-                    .centerCrop()
-                    .crossFade()
-                    .into(movieVH.mPosterImg);
-
-                    */
-
         }
-        /*
-        @BindView(R.id.tv_repo_name) TextView repoNameTextView;
-        @BindView(R.id.tv_repo_description) TextView repoDescriptionTextView;
-        @BindView(R.id.tv_forks) TextView forksTextView;
-        @BindView(R.id.tv_stars) TextView starsTextView;
-
-        private Movie movie;
-
-        RepoViewHolder(View itemView, MovieSelectedListener movieSelectedListener) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-            itemView.setOnClickListener(v -> {
-                if(movie != null) {
-                    movieSelectedListener.onMovieSelected(movie);
-                }
-            });
-        }
-
-        void bind(Movie movie) {
-            this.movie = movie;
-            repoNameTextView.setText(movie.title);
-            repoDescriptionTextView.setText(movie.releaseDate);
-            forksTextView.setText(String.valueOf("10"));
-            starsTextView.setText(String.valueOf("10"));
-        }
-        */
     }
 }

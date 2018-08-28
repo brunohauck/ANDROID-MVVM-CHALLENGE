@@ -67,8 +67,10 @@ public class ListMoviesFragment extends BaseFragment implements MovieSelectedLis
         //adapter = new PaginationAdapter(viewModel, this, this);
         //adapter = new MovieListAdapter(viewModel, this, this);
         listView.setAdapter(adapter);
-        linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         listView.setLayoutManager(linearLayoutManager);
+
+
         listView.addOnScrollListener(new PaginationScrollListener(linearLayoutManager) {
                     @Override
                     protected void loadMoreItems() {

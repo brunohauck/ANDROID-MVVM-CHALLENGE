@@ -13,11 +13,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".splash.SplashActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar">
-
-        </activity>
-        <activity
             android:name=".home.HomeMainActivity"
             android:label="@string/title_activity_home_main"
             android:theme="@style/AppTheme.NoActionBar">
@@ -26,7 +21,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
     </application>
 

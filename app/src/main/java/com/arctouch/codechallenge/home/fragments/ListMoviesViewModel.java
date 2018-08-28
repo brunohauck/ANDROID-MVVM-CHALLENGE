@@ -85,15 +85,15 @@ public class ListMoviesViewModel extends ViewModel {
                         repoLoadError.setValue(false);
 
                         Log.d("---->pag", Integer.toString(value.total_pages));
-                        /*
+
                         for (Movie movie : value.results) {
                             movie.genres = new ArrayList<>();
                             for (Genre genre : Cache.getGenres()) {
-                                if (movie.genreIds.contains(genre.id)) {
+                                if (movie.genre_ids.contains(genre.id)) {
                                     movie.genres.add(genre);
                                 }
                             }
-                        }*/
+                        }
                         movies.setValue(value.results);
                         loading.setValue(false);
                     }
