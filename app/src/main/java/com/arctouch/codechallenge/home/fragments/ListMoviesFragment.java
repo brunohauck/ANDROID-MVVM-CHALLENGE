@@ -64,8 +64,6 @@ public class ListMoviesFragment extends BaseFragment implements MovieSelectedLis
         listView.setAdapter(new MovieListAdapter(viewModel, this, this));
 
         adapter = new MovieListAdapter(viewModel, this, this);
-        //adapter = new PaginationAdapter(viewModel, this, this);
-        //adapter = new MovieListAdapter(viewModel, this, this);
         listView.setAdapter(adapter);
         linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         listView.setLayoutManager(linearLayoutManager);
@@ -76,8 +74,6 @@ public class ListMoviesFragment extends BaseFragment implements MovieSelectedLis
                     protected void loadMoreItems() {
                         isLoading = true;
                         currentPage += 1;
-                        // mocking network delay for API call
-                        Log.d("--->","Entrou");
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
